@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block main %}
+	{% if project_all_done %}
+		<div class="final-file-area">
+			<h3>All your tracks have been mixed!</h3>
+			<p>You can download your final files below:</p>
+			<ul class="final-files">
+				{% for file in project.final_files.all %}
+					<li><a href="{{ file.attachment.url }}">{{ file }}</a></li>
+				{% empty %}
+					<li>No files have been added yet.</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+
+	<div class="project-area">
+
+		<aside>
+			<h1>{{ project.title }}</h1>
+			<ul class="project-status">
+				<li>Status: {{ project.get_status_display }}</li>
+				{% if project_is_waiting_for_files %}
+				<li>
+					<a id="start-mixing" href="{% url 'project_submit' project.pk %}">
+						Finish uploads and start mixing
+					</a>
+				</li>
+				{% endif %}
+			</ul>
+			<ul class="profile-status">
+				<li>
+					Available track credits:
+					<span class="track-credit-display">{{ user.profile.track_credit }}</span>
+				</li>
+				<li><a href="{% url 'purchases:dashboard' %}">Get more credits</a></li>
+			</ul>
+		</aside>
+
+		<div id="root" class="project-root">
+			{# React will be injected here #}
+		</div>
+	</div>
+{% endblock main %}
+
+{% block extra_js %}
+	<script>
+		// Populate Redux's state
+		window.initialState = JSON.parse('{{ state|escapejs }}');
+
+		// Confirm after the user clicks the "Start mixing" button
+		var startBtn = document.querySelector('#start-mixing');
+		var confirmStartMsg = 'Great! Your project is ready for mixing. ' +
+			'Just keep in mind that all ongoing file uploads will be canceled ' +
+			'and you won\'t be able to upload any new files. Do you want to continue?'
+
+		if (startBtn) startBtn.addEventListener('click', function(event) {
+			if (confirm(confirmStartMsg)) return true;
+			event.preventDefault();
+		});
+	</script>
+	<script src="http://localhost:8080/mixing.js"></script>
+{% endblock extra_js %}

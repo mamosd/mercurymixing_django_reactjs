@@ -1,0 +1,37 @@
+{# Renders  #}
+
+<div class="songs">
+	{% for song in project.songs.all %}
+		<div class="cell song">
+			<div class="header" data-target="#song-{{ song.pk }}">
+				Song {{ forloop.counter }}: {{ song }}
+			</div>
+
+			<div class="groups collapse" id="song-{{ song.pk }}">
+				{% for group in song.groups.all %}
+					<div class="cell group">
+						<div class="header">
+							Group {{ forloop.counter }}: {{ group }}
+						</div>
+
+						<div class="tracks">
+							{% for track in group.tracks.all %}
+								<div class="track">
+									Track: <a href="{{ track.file.url }}">{{ track }}</a>
+								</div>
+							{% empty %}
+								<div class="track">No tracks added</div>
+							{% endfor %}
+						</div> {# Tracks #}
+
+					</div>
+				{% empty %}
+					<div class="group cell empty">No groups added</div>
+				{% endfor %}
+			</div> {# Groups #}
+
+		</div>
+	{% empty %}
+		<div class="cell song empty">Nothing has been added yet</div>
+	{% endfor %}
+</div> {# Songs #}

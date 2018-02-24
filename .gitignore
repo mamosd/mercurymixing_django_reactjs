@@ -1,0 +1,13 @@
+*.pyc
+*.pyo
+*.db
+*.sublime-workspace
+*/static/build/
+.anaconda
+.DS_Store
+.coverage
+.sass-cache
+local_settings.py
+node_modules/
+/static
+/private_media

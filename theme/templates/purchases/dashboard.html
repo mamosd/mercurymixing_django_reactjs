@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load mezzanine_tags %}
+
+{% block main %}
+	<h2>Purchase more credits</h2>
+	<form id="purchase-add-form" action="" method="POST">
+		{% errors_for form %}
+		{% fields_for form %}
+		<div class="actions">
+			<button type="submit">Purchase Credits</button>
+		</div>
+	</form>
+
+	<h2>Purchase history</h2>
+	<table class="past-purchases">
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Credits</th>
+				<th>Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for purchase in purchases %}
+				<tr>
+					<td>{{ purchase.created|date:"DATETIME_FORMAT" }}</td>
+					<td>{{ purchase.credits }}</td>
+					<td>${{ purchase.amount }}</td>
+				</tr>
+			{% empty %}
+				<tr>
+					<td colspan="3">You haven't purchased credits yet</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<script src="https://checkout.stripe.com/checkout.js"></script>
+	<script>
+		var creditPrice = {{ settings.PURCHASE_CREDIT_PRICE|default:0 }};
+		var stripeConfig = {
+			amount: 0,
+			key: '{{ settings.STRIPE_PK }}',
+			name: '{{ settings.SITE_TITLE }}',
+			description: 'Track Credit purchase',
+			zipCode: true,
+		}
+
+		var form = document.querySelector('#purchase-add-form');
+		var creditInput = form.querySelector('#id_credits');
+		var amountInput = form.querySelector('#id_amount');
+		var submitBtn = form.querySelector('button[type="submit"]');
+
+		function updateAmount() {
+			var newAmount = creditInput.value * creditPrice;
+			amountInput.value = newAmount;
+			stripeConfig.amount = newAmount * 100;
+			submitBtn.textContent = 'Purchase for $' + newAmount.toFixed(2);
+		}
+
+		updateAmount();
+		creditInput.addEventListener('change', updateAmount);
+		creditInput.addEventListener('keyup', updateAmount);
+
+		form.addEventListener('submit', function(event) {
+			event.preventDefault();
+			window.payAndSubmit(form, stripeConfig); // See stripe-payment.js and classic.js
+		});
+	</script>
+{% endblock main %}

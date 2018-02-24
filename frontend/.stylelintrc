@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-rscss/config"
+  ],
+  "plugins": [
+    "stylelint-order"
+  ],
+  "rules": {
+    "at-rule-no-vendor-prefix": true,
+    "indentation": "tab",
+    "media-feature-name-no-vendor-prefix": true,
+    "order/properties-alphabetical-order": true,
+    "property-no-vendor-prefix": true,
+    "rscss/no-descendant-combinator": false,
+    "selector-attribute-quotes": "always",
+    "selector-no-vendor-prefix": true,
+    "string-quotes": "double",
+    "value-no-vendor-prefix": true
+  }
+}

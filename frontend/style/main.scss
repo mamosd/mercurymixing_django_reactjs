@@ -1,0 +1,152 @@
+/* stylelint-disable rscss/class-format */
+
+$padding: 1.5rem;
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	font-family: sans-serif;
+	font-size: 11pt;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	margin-bottom: $padding;
+	margin-top: 0;
+}
+
+.project-area {
+	display: flex;
+	justify-content: space-between;
+	padding: $padding;
+
+	> aside {
+		width: 22%;
+	}
+}
+
+.project-root {
+	width: 75%;
+}
+
+.project.inactive {
+	.track-uploader,
+	.add-song,
+	.add-group,
+	button.delete {
+		display: none;
+	}
+}
+
+button.delete {
+	appearance: none;
+	border: 1px solid #ccc;
+	cursor: pointer;
+	height: 1.5rem;
+	padding: 0;
+	width: 1.5rem;
+
+	&::before {
+		content: "\00d7";
+		display: block;
+	}
+
+	span {
+		display: none;
+	}
+}
+
+.add-song {
+	border: solid 1px #ccc;
+	margin-bottom: 4rem;
+	padding: $padding;
+}
+
+.song {
+	border: solid 1px #ccc;
+	margin-bottom: 2rem;
+	min-width: 25%;
+	padding: $padding;
+	position: relative;
+
+	> button {
+		position: absolute;
+		right: $padding;
+		top: $padding;
+	}
+}
+
+.add-group {
+	border: 1px solid #ccc;
+	padding: $padding;
+}
+
+.groups {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: 0 ($padding * -1);
+	padding: 0 ($padding * 0.5);
+}
+
+.group {
+	border: solid 1px #ccc;
+	display: flex;
+	flex: 1 0 (100% / 3.5);
+	flex-direction: column;
+	margin: 0 ($padding * 0.5) $padding;
+	min-width: 18rem;
+	padding: $padding;
+	position: relative;
+
+	> button {
+		position: absolute;
+		right: $padding;
+		top: $padding;
+	}
+}
+
+.track-uploader {
+	border: 2px dashed #ccc;
+	margin-top: auto; // Pull to bottom
+	padding: 3em 1em;
+	text-align: center;
+}
+
+.track {
+	margin-bottom: $padding;
+	position: relative;
+	word-wrap: break-word;
+
+	button.delete {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+}
+
+.comment {
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 2rem;
+	padding-bottom: $padding;
+	position: relative;
+
+	.date {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+}
+
+.add-comment {
+	textarea,
+	input {
+		display: block;
+	}
+}
